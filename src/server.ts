@@ -14,7 +14,19 @@ const angularApp = Promise.all([
 ]).then(([appManifestModule, appEngineManifestModule]) => {
   ɵsetAngularAppManifest(appManifestModule.default);
   ɵsetAngularAppEngineManifest(appEngineManifestModule.default);
-  return new AngularNodeAppEngine();
+  const port = process.env['PORT'] || '4000';
+  const configuredHosts = process.env['SSR_ALLOWED_HOSTS']?.split(',').map((host) => host.trim()).filter(Boolean) ?? [];
+  const allowedHosts = [
+    'localhost',
+    '127.0.0.1',
+    `localhost:${port}`,
+    `127.0.0.1:${port}`,
+    process.env['VERCEL_URL'],
+    process.env['VERCEL_PROJECT_PRODUCTION_URL'],
+    ...configuredHosts,
+  ].filter((host): host is string => Boolean(host));
+
+  return new AngularNodeAppEngine({ allowedHosts });
 });
 
 const browserDistFolder = join(import.meta.dirname, '../browser');

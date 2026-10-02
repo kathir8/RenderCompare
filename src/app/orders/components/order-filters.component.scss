@@ -1,0 +1,45 @@
+:host {
+  display: block;
+}
+
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(180px, 2fr) minmax(140px, 1fr);
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.search-control,
+.filter-control {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.76rem;
+  color: #6b7280;
+  font-weight: 600;
+}
+
+input,
+select {
+  border: 1px solid #dfe3ea;
+  border-radius: 10px;
+  background: #fff;
+  color: #1f2937;
+  font: inherit;
+  min-height: 40px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid rgba(59, 130, 246, 0.25);
+  border-color: #6aa7ff;
+}
+
+@media (max-width: 860px) {
+  .toolbar {
+    grid-template-columns: 1fr;
+  }
+}

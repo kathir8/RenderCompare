@@ -4,13 +4,22 @@ import {
   isMainModule,
   writeResponseToNodeResponse,
 } from '@angular/ssr/node';
+import { ɵsetAngularAppEngineManifest, ɵsetAngularAppManifest } from '@angular/ssr';
 import express from 'express';
 import { join } from 'node:path';
+
+const angularApp = Promise.all([
+  import(new URL('./angular-app-manifest.mjs', import.meta.url).href),
+  import(new URL('./angular-app-engine-manifest.mjs', import.meta.url).href),
+]).then(([appManifestModule, appEngineManifestModule]) => {
+  ɵsetAngularAppManifest(appManifestModule.default);
+  ɵsetAngularAppEngineManifest(appEngineManifestModule.default);
+  return new AngularNodeAppEngine();
+});
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
 
 /**
  * Example Express Rest API endpoints can be defined here.
@@ -39,11 +48,33 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
+  const renderStartedAt = performance.now();
   angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
+    .then((engine) => engine.handle(req))
+    .then(async (response) => {
+      if (!response) {
+        next();
+        return;
+      }
+
+      if (req.path === '/ssr') {
+        const headers = new Headers(response.headers);
+        const renderDurationMs = performance.now() - renderStartedAt;
+        const html = await response.text();
+        const htmlWithRenderDuration = html.replaceAll('SSR_RENDER_DURATION_PLACEHOLDER', renderDurationMs.toFixed(1));
+        headers.set('Server-Timing', `ssr;dur=${renderDurationMs.toFixed(1)}`);
+        headers.delete('content-length');
+        const responseWithTiming = new Response(htmlWithRenderDuration, {
+          status: response.status,
+          statusText: response.statusText,
+          headers,
+        });
+        writeResponseToNodeResponse(responseWithTiming, res);
+        return;
+      }
+
+      writeResponseToNodeResponse(response, res);
+    })
     .catch(next);
 });
 

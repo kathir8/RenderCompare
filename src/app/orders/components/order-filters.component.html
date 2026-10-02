@@ -1,0 +1,23 @@
+<div class="toolbar" aria-label="Order filters">
+  <label class="search-control">
+    <span>Search</span>
+    <input
+      type="search"
+      [value]="searchTerm"
+      (input)="searchChange.emit($any($event.target).value)"
+      placeholder="Order ID, patient, doctor"
+    />
+  </label>
+
+  <label class="filter-control">
+    <span>Status</span>
+    <select [value]="statusFilter" (change)="onStatusSelection($event)">
+      <option value="ALL">All</option>
+      <option value="Pending">Pending</option>
+      <option value="In Progress">In Progress</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+      <option value="Review Required">Review Required</option>
+    </select>
+  </label>
+</div>

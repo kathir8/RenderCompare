@@ -1,0 +1,71 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.count-badge {
+  background: #edf4ff;
+  color: #2457b5;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 0.72rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 22px 16px;
+  color: #475467;
+  font-size: 0.88rem;
+}
+
+kendo-grid {
+  min-height: 0;
+  border: 0;
+}
+
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 5px 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.status-pending {
+  background: #fff5d6;
+  color: #9a6a00;
+}
+
+.status-in-progress {
+  background: #dfeeff;
+  color: #1d57b7;
+}
+
+.status-completed {
+  background: #dff7ea;
+  color: #18794e;
+}
+
+.status-cancelled {
+  background: #ffe1e2;
+  color: #b42318;
+}
+
+.status-review-required {
+  background: #f4e8ff;
+  color: #7a3ed9;
+}

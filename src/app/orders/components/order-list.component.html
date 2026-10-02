@@ -1,0 +1,39 @@
+<div class="list-head">
+  <span>Orders</span>
+  <span class="count-badge">{{ total }} records</span>
+</div>
+
+@if (total === 0) {
+  <div class="empty-state">
+    <strong>No matching orders</strong>
+    <span>Adjust filters or search terms to find a record.</span>
+  </div>
+} @else {
+  <kendo-grid
+    [data]="gridData"
+    [height]="620"
+    [rowHeight]="72"
+    [pageSize]="pageSize"
+    [skip]="skip"
+    [loading]="loading"
+    [scrollable]="'virtual'"
+    [sortable]="true"
+    [sort]="sort"
+    (sortChange)="onSortChange($event)"
+    (pageChange)="onPageChange($event)"
+    [selectable]="true"
+    (selectionChange)="onSelectionChange($event)"
+  >
+    <kendo-grid-column field="id" title="Order ID" [width]="140"></kendo-grid-column>
+    <kendo-grid-column field="patientName" title="Patient" [width]="190"></kendo-grid-column>
+    <kendo-grid-column field="department" title="Department" [width]="170"></kendo-grid-column>
+    <kendo-grid-column field="orderType" title="Type" [width]="150"></kendo-grid-column>
+    <kendo-grid-column field="status" title="Status" [width]="170">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        @if (dataItem) {
+          <span class="status-pill status-{{ statusClass(dataItem.status) }}">{{ dataItem.status }}</span>
+        }
+      </ng-template>
+    </kendo-grid-column>
+  </kendo-grid>
+}

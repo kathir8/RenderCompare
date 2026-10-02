@@ -1,0 +1,9 @@
+<header class="mode-bar">
+  <a class="app-brand" href="/csr">RenderCompare</a>
+  <nav aria-label="Rendering mode">
+    <a href="/csr" [class.active]="!isSsrRoute" [attr.aria-current]="!isSsrRoute ? 'page' : null">CSR</a>
+    <a href="/ssr" [class.active]="isSsrRoute" [attr.aria-current]="isSsrRoute ? 'page' : null">SSR</a>
+  </nav>
+</header>
+
+<router-outlet></router-outlet>

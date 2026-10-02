@@ -1,9 +1,15 @@
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
-  "functions": {
-    "server.mjs": {
-      "includeFiles": "dist/ssr/**"
-    }
-  }
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "buildCommand": "npm run build",
+    "functions": {
+        "api/ssr.mjs": {
+            "includeFiles": "dist/ssr/**"
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/ssr",
+            "destination": "/api/ssr"
+        }
+    ]
 }

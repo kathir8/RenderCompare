@@ -19,6 +19,7 @@ const angularApp = Promise.all([
   const allowedHosts = [
     'localhost',
     '127.0.0.1',
+    'render-compare.vercel.app',
     `localhost:${port}`,
     `127.0.0.1:${port}`,
     process.env['VERCEL_URL'],

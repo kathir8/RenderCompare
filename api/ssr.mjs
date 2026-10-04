@@ -4,6 +4,9 @@ export default function handler(request, response) {
   const requestUrl = request.url ?? '/';
   const queryIndex = requestUrl.indexOf('?');
   request.url = `/ssr${queryIndex >= 0 ? requestUrl.slice(queryIndex) : ''}`;
+  request.headers.host = process.env.VERCEL_PROJECT_PRODUCTION_URL
+    || process.env.VERCEL_URL
+    || 'render-compare.vercel.app';
 
   return reqHandler(request, response, (error) => {
     if (error) {

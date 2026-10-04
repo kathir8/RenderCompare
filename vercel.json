@@ -10,6 +10,10 @@
         {
             "source": "/ssr",
             "destination": "/api/ssr"
+        },
+        {
+            "source": "/csr",
+            "destination": "/"
         }
     ]
 }
